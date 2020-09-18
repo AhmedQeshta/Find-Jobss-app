@@ -136,7 +136,10 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-4">
+
+
+
+                                    <div class="form-group col-md-3">
                                         <label class="control-label">Country</label>
                                         <input type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ $job->country  , old('country') }}" required placeholder="Enter Country:">
                                         @error('country')
@@ -144,6 +147,14 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                    </div>
+
+                                    <div class="form-group col-md-1">
+                                        <label class="control-label"></label>
+                                        <label class="mt-checkbox"> Active
+                                            <input  @if($job->status == 1) checked @endif type="checkbox" value="1" name="status" />
+                                            <span></span>
+                                        </label>
                                     </div>
 
                                     <div class="form-group col-md-2">

@@ -91,6 +91,7 @@
                                             <th>country</th>
                                             <th>typeJob</th>
                                             <th>Year</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                         </thead>
@@ -110,6 +111,7 @@
                                                     <td>{{$job->country}}</td>
                                                     <td>{{$job->typeJob}}</td>
                                                     <td class="center"> {{$job->Year}} </td>
+                                                    <td @if($job->status == 1) class="portlet green-meadow text-dark text-uppercase text-center" @else class="portlet red-sunglo text-dark text-uppercase text-center" @endif> {{$job->getStatus()}} </td>
                                                     <td>
                                                         <div class="btn-group">
                                                             <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Actions

@@ -49,6 +49,7 @@ class JobController extends Controller
             $request['month'] = Carbon::now()->isoFormat('MMMM');
             $request['date'] =  Carbon::now()->isoFormat('D-M-Y');
             $request['slug'] =  $request->title;
+            $request['status'] =  0;
             Job::create($request->all());
             $notification=array(
             'message'=>'Create JOb Successfully ,',
@@ -143,6 +144,11 @@ class JobController extends Controller
         $request['month'] = Carbon::now()->isoFormat('MMMM');
         $request['date'] =  Carbon::now()->isoFormat('D-M-Y');
         $request['slug'] =  $request->title;
+        if (!$request->has('status')){
+            $request['status'] =  0;
+        }else{
+            $request['status'] =  $request->status;
+        }
         $job->update($request->all());
         $notification=array(
             'message'=>'Update JOb Successfully ,',
