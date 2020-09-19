@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\Quiz;
+use App\Models\UserAnswer;
 use App\User;
 use File;
 use Illuminate\Http\Request;
@@ -123,4 +125,22 @@ class ProfileController extends Controller
         return Redirect()->route('user.profile')->with('success','Updated Successfully');
     }
 
+    public function indexQuiz(){
+        $questions = Quiz::select('id','questionTitle' ,
+                'slug', 'questionDescription',
+                'requiredExpertise', 'type_question')->paginate(1);
+        $userAnswers = UserAnswer::where('user_id',Auth::id())->paginate(1);
+        return view('site.user.quiz.index',compact('questions','userAnswers'));
+    }
+
+    public function AnswerStore(Request $request){
+
+        $request['status_answer'] =  0;
+        $request['percentage'] =  0;
+        UserAnswer::create($request->all());
+        $i = 1;
+        return redirect('/user/quiz?page='. ++$i)->with('success','Add Answer success');
+
+
+    }
 }

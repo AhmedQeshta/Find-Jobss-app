@@ -301,13 +301,24 @@
                     @else
                         <img class="profileAvatar" src="{{asset(Auth::user()->avatar)}}" alt="{{asset(Auth::user()->avatar)}}">
                     @endif
-                    <h3>{{Auth::user()->name}}</h3>
-                    <hr>
-                    <h5>{{Auth::user()->phone}}</h5>
-                    <h4>{{Auth::user()->job}}</h4>
-                    <h6><a class="btn badge-dark" href="">My CV</a></h6>
-                    <hr>
-                    <h6><a id="delete_account" class="btn badge-danger" href="">Delete Account</a></h6>
+
+                    @if(Auth::user()->status_question == 2)
+                        <h3>{{Auth::user()->name}}</h3>
+                        <hr>
+                        <h5>{{Auth::user()->phone}}</h5>
+                        <h4>{{Auth::user()->job}}</h4>
+                        <h6><a class="btn badge-dark" href="">My CV</a></h6>
+                        <hr>
+                        <h6><a id="delete_account" class="btn badge-danger" href="">Delete Account</a></h6>
+                    @elseif(Auth::user()->status_question == 1)
+                        <div class="alert alert-warning">
+                            <p>Questions are under review. <br> <strong><a href="#"> Show Your Answer!</a></strong> </p>
+                        </div>
+                    @else
+                        <div class="alert alert-danger">
+                            <p>You Must Complete Your Profile, <strong><a href="{{route('user.quiz')}}">Go!</a></strong> </p>
+                        </div>
+                    @endif
                 </div>
 
             </div>

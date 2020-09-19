@@ -31,6 +31,12 @@ Route::group(['namespace' => 'Users','prefix'=>'user'],function (){
     Route::get('profile', 'ProfileController@index')->name('user.profile');
     Route::post('password/update', 'ProfileController@updatePassword')->name('user.password.update');//if have old password
     Route::post('profile/update', 'ProfileController@updateProfile')->name('user.profile.update');//if have not old password
+
+    Route::group(['prefix'=>'quiz'],function (){
+        Route::get('/', 'ProfileController@indexQuiz')->name('user.quiz');
+        Route::post('store', 'ProfileController@AnswerStore')->name('user.quiz.store');
+    });
+
 });
 
 

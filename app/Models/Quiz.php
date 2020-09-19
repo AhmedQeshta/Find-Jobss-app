@@ -16,4 +16,6 @@ class Quiz extends Model
     public function setSlugAttribute($value){
         $this->attributes['slug'] = Str::slug($this->attributes['questionTitle']);
     }
+
+
 }

@@ -61,7 +61,7 @@ class JobController extends Controller
                 'message'=>'Create JOb Fail ,',
                 'alert-type'=>'error'
             );
-            return redirect()->back()->with($notification);
+            return redirect()->route('admin.jobs')->with($notification);
         }
 
     }

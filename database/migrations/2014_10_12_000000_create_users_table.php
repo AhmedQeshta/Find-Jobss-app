@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('job')->nullable();//student,work
             $table->string('provider_id')->nullable();
             $table->string('provider')->nullable();
-            $table->unsignedTinyInteger('status_question')->default(0)->nullable();//0=>show q , else=>hidden
+            $table->unsignedInteger('status_question')->default(0)->nullable();//0=>show q , 1=>padding else=>hidden
             $table->string('password')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
