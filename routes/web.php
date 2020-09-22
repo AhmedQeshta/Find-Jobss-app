@@ -32,11 +32,13 @@ Route::group(['namespace' => 'Users','prefix'=>'user'],function (){
     Route::post('password/update', 'ProfileController@updatePassword')->name('user.password.update');//if have old password
     Route::post('profile/update', 'ProfileController@updateProfile')->name('user.profile.update');//if have not old password
 
+    Route::put('update/Status', 'ProfileController@updateStatusQuestion')->name('user.quiz.update.Status');
+    Route::get('show/answers','ProfileController@ShowAnswers')->name('user.quiz.show.answers');
+
     Route::group(['prefix'=>'quiz'],function (){
         Route::get('/', 'ProfileController@indexQuiz')->name('user.quiz');
         Route::post('store', 'ProfileController@AnswerStore')->name('user.quiz.store');
     });
-
 });
 
 
@@ -77,6 +79,12 @@ Route::group(['namespace' => 'Admin','prefix'=>'admin'],function (){
         Route::get('edit/{id}/{slug}', 'QuizController@edit')->name('admin.quiz.edit');
         Route::post('update/{id}/{slug}', 'QuizController@update')->name('admin.quiz.update');
         Route::get('show/{id}/{slug}', 'QuizController@show')->name('admin.quiz.show');
+        ######################
+        Route::get('users/answers', 'QuizController@indexAnswerQuiz')->name('admin.quiz.users.answers');
+        Route::get('show/user/answer/{id}', 'QuizController@showAnswerUser')->name('admin.quiz.showAnswerUser');
+        Route::get('user/updateStatusAnswer/{id}', 'QuizController@updateStatusAnswer')->name('admin.quiz.updateStatusAnswer');
+        Route::get('user/updateStatusUser/{id}', 'QuizController@updateStatusUser')->name('admin.quiz.updateStatusUser');
+        Route::put('user/updatePercentage/{id}', 'QuizController@updatePercentage')->name('admin.quiz.updatePercentage');
     });
 
 });

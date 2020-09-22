@@ -8,8 +8,24 @@
                     <div class="card-header">Questions  </div>
                     @include('message._message')
                     @forelse($questions as $index=>$question)
-                        @if( $userAnswers->count() ==  $questions->count())
-                            <div class="alert-info alert"> End Questions</div>
+
+                        @if( $userAnswers == 1)
+                            <form action="{{route('user.quiz.update.Status')}}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <div class="alert-info alert mb-lg-2 m-lg-5  text-center d-flex flex-column">End Questions
+                                   <span class="d-flex flex-row justify-content-center mt-2">
+{{--                                       <strong class="text-center mr-2">--}}
+{{--                                            <a href="{{route('user.quiz.edit.answer.question')}}" class="btn-warning btn ">--}}
+{{--                                                Edit--}}
+{{--                                            </a>--}}
+{{--                                        </strong>--}}
+                                        <button class="btn-success btn border-0 ml-2" type="submit">
+                                            Save Answer
+                                        </button>
+                                   </span>
+                                </div>
+                            </form>
                         @else
                             <div class="container py-3">
                                 <div class="row justify-content-center">
@@ -37,14 +53,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div style="margin: auto; text-align: center;padding-top: 15px ; display: flex">
+                                {{ $questions->links() }}
+                            </div>
                         @endif
                     @empty
                         <div class="alert-warning alert"> No Questions Add Yet</div>
                     @endforelse
 
-{{--                    <div style="margin: auto; text-align: center;padding-top: 15px ; display: flex">--}}
-{{--                        {{ $questions->links() }}--}}
-{{--                    </div>--}}
+
 
 
                 </div>

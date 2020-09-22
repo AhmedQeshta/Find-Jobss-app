@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Job;
 use App\Models\Quiz;
+use App\Models\UserAnswer;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
@@ -128,6 +130,8 @@ class QuizController extends Controller
         return redirect()->route('admin.quiz')->with($notification);
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -151,6 +155,70 @@ class QuizController extends Controller
         );
         return redirect()->route('admin.quiz')->with($notification);
     }
+
+
+
+    public function indexAnswerQuiz()
+    {
+        $users = User::get();
+        return view('admin.pages.quizzes.answerUser',compact('users'));
+    }
+
+    public function showAnswerUser($id){
+       $user = User::find($id);
+       $answer_user = $user->answerQuizUser;
+       $questions = Quiz::get();
+        if (!$user){
+            return redirect()->route('admin.quiz.users.answers')->with('error','user not found');
+        }
+        return view('admin.pages.quizzes.showanswerUser',compact('user','answer_user','questions'));
+    }
+
+    public function updateStatusAnswer($id){
+        $answerUser = UserAnswer::find($id);
+        if (!$answerUser){
+            return redirect()->route('user.profile')->with('error','Answer not found');
+        }
+        $answerUser->update(['status_answer'=>1]);
+          $notification=array(
+                'message'=>'Add successfully',
+                'alert-type'=>'success'
+            );
+
+        return redirect()->route('admin.quiz.showAnswerUser',$answerUser->user_id)->with($notification);
+    }
+    public function updateStatusUser($id){
+         $user = User::find($id);
+        if (!$user){
+            return redirect()->route('admin.quiz.users.answers')->with('error','user not found');
+        }
+        $user->update(['status_question'=>2]);
+          $notification=array(
+                'message'=>'Add successfully',
+                'alert-type'=>'success'
+            );
+        return redirect()->route('admin.quiz.users.answers')->with($notification);
+    }
+
+    public function updatePercentage(Request $request , $id){
+
+        $answerUser = UserAnswer::find($id);
+        if (!$answerUser){
+            return redirect()->route('admin.quiz.showAnswerUser',$answerUser->user_id)->with('error','Answer not found');
+        }
+        $request['percentage'] = $request->percentage;
+        $answerUser->update($request->all());
+        $notification=array(
+            'message'=>'Add successfully',
+            'alert-type'=>'success'
+        );
+
+        return redirect()->route('admin.quiz.showAnswerUser',$answerUser->user_id)->with($notification);
+    }
+
+
+
+
 
     protected function rules($id = null){
         $rules = [];

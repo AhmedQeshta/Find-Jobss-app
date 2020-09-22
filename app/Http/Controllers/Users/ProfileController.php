@@ -126,21 +126,66 @@ class ProfileController extends Controller
     }
 
     public function indexQuiz(){
+        $questions_count = Quiz::all();
         $questions = Quiz::select('id','questionTitle' ,
                 'slug', 'questionDescription',
                 'requiredExpertise', 'type_question')->paginate(1);
-        $userAnswers = UserAnswer::where('user_id',Auth::id())->paginate(1);
-        return view('site.user.quiz.index',compact('questions','userAnswers'));
+        foreach ($questions as $index=>$question){
+            $question_arr[$index]=$question->id;
+        }
+
+        $userAnswers_Q = UserAnswer::where('user_id',Auth::id())->get();
+
+
+         $countQ = $questions_count->count();
+         $countA = $userAnswers_Q->count();
+         if ($countA == $countQ){
+             $userAnswers = 1;
+         }else{
+             $userAnswers = 0;
+         }
+
+        return view('site.user.quiz.index',compact('questions','userAnswers','question_arr','userAnswers_Q'));
     }
 
     public function AnswerStore(Request $request){
 
+
         $request['status_answer'] =  0;
         $request['percentage'] =  0;
         UserAnswer::create($request->all());
-        $i = 1;
-        return redirect('/user/quiz?page='. ++$i)->with('success','Add Answer success');
-
+        return redirect()->back()->with('success','Add Answer success');
 
     }
+    public function updateStatusQuestion(){
+        $user = User::find(Auth::id());
+        if (!$user){
+            return redirect()->route('user.profile')->with('error','user not found');
+        }
+        $user->update(['status_question' =>1 ]);
+        return redirect()->route('user.profile')->with('success','save Answer successfully');
+    }
+
+    public function ShowAnswers(){
+        $user = User::find(Auth::id());
+        $answer_user = $user->answerQuizUser;
+        $questions = Quiz::get();
+        if (!$user){
+            return redirect()->route('user.profile')->with('error','user not found');
+        }
+        return view('site.user.quiz.showAnswers',compact('answer_user','questions'));
+    }
+
+
+    public function EditAnswerQuestion(){
+        $user = User::find(Auth::id());
+        $answer_user = $user->answerQuizUser;
+        $questions = Quiz::paginate(1);
+        if (!$user){
+            return redirect()->route('user.profile')->with('error','user not found');
+        }
+        return view('site.user.quiz.edit',compact('answer_user','questions'));
+    }
+
+
 }

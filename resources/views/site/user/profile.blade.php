@@ -312,7 +312,7 @@
                         <h6><a id="delete_account" class="btn badge-danger" href="">Delete Account</a></h6>
                     @elseif(Auth::user()->status_question == 1)
                         <div class="alert alert-warning">
-                            <p>Questions are under review. <br> <strong><a href="#"> Show Your Answer!</a></strong> </p>
+                            <p>Questions are under review. <br> <strong><a href="{{route('user.quiz.show.answers')}}"> Show Your Answer!</a></strong> </p>
                         </div>
                     @else
                         <div class="alert alert-danger">

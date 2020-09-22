@@ -73,6 +73,11 @@
                             <span class="title">Create Questions</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ Request::is('admin/quiz/users/answers') ? 'active ' : '' }} ">
+                        <a href="{{route('admin.quiz.users.answers')}}" class="nav-link ">
+                            <span class="title">User Answer</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
