@@ -307,7 +307,7 @@
                         <hr>
                         <h5>{{Auth::user()->phone}}</h5>
                         <h4>{{Auth::user()->job}}</h4>
-                        <h6><a class="btn badge-dark" href="">My CV</a></h6>
+                        <h6><a class="btn badge-dark" href="{{route('user.quiz.show.cv')}}">My CV</a></h6>
                         <hr>
                         <h6><a id="delete_account" class="btn badge-danger" href="">Delete Account</a></h6>
                     @elseif(Auth::user()->status_question == 1)

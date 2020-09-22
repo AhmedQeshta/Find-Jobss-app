@@ -3,18 +3,49 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('All Job') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name Job</th>
+                            <th scope="col">Title Job</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Experience</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
 
-                    {{ __('You are logged in!') }}
+                        @forelse($jobs as $index=>$job)
+                            <tbody>
+                            <tr>
+                                <th scope="row">{{++$index}}</th>
+                                <td>{{$job->name}}</td>
+                                <td>{{$job->title}}</td>
+                                <td>$ {{$job->price}}</td>
+                                <td>{{$job->experience }}</td>
+                                <td>
+                                    <a class="btn btn-info" href="">Details</a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        @empty
+                            <tbody>
+                                <tr>
+                                    <th colspan="5">No Jop Add Yet</th>
+                                </tr>
+                            </tbody>
+                        @endforelse
+
+                    </table>
+                </div>
+                <div class="text-center">
+                    {{ $jobs->links() }}
                 </div>
             </div>
         </div>

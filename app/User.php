@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Quiz;
 use App\Models\UserAnswer;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,6 +27,7 @@ class User extends Authenticatable
     public function answerQuizUser(){
         return  $this->hasMany(UserAnswer::class ,'user_id','id');
     }
+
 
     public function getStatusQuestion(){
         if($this ->status_question == 0){

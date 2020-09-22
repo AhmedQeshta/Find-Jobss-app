@@ -177,14 +177,25 @@ class ProfileController extends Controller
     }
 
 
-    public function EditAnswerQuestion(){
+//    public function EditAnswerQuestion(){
+//        $user = User::find(Auth::id());
+//        $answer_user = $user->answerQuizUser;
+//        $questions = Quiz::paginate(1);
+//        if (!$user){
+//            return redirect()->route('user.profile')->with('error','user not found');
+//        }
+//        return view('site.user.quiz.edit',compact('answer_user','questions'));
+//    }
+
+    public function ShowCV(){
         $user = User::find(Auth::id());
         $answer_user = $user->answerQuizUser;
-        $questions = Quiz::paginate(1);
+
+        $questions = Quiz::get();
         if (!$user){
             return redirect()->route('user.profile')->with('error','user not found');
         }
-        return view('site.user.quiz.edit',compact('answer_user','questions'));
+        return view('site.user.cv.showCV',compact('user','answer_user','questions'));
     }
 
 

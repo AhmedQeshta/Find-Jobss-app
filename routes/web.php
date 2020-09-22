@@ -35,6 +35,8 @@ Route::group(['namespace' => 'Users','prefix'=>'user'],function (){
     Route::put('update/Status', 'ProfileController@updateStatusQuestion')->name('user.quiz.update.Status');
     Route::get('show/answers','ProfileController@ShowAnswers')->name('user.quiz.show.answers');
 
+    Route::get('show/cv','ProfileController@ShowCV')->name('user.quiz.show.cv');
+
     Route::group(['prefix'=>'quiz'],function (){
         Route::get('/', 'ProfileController@indexQuiz')->name('user.quiz');
         Route::post('store', 'ProfileController@AnswerStore')->name('user.quiz.store');
