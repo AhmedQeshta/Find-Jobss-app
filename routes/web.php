@@ -32,20 +32,18 @@ Route::group(['namespace' => 'Users','prefix'=>'user'],function (){
     Route::post('password/update', 'ProfileController@updatePassword')->name('user.password.update');//if have old password
     Route::post('profile/update', 'ProfileController@updateProfile')->name('user.profile.update');//if have not old password
 
-    Route::put('update/Status', 'ProfileController@updateStatusQuestion')->name('user.quiz.update.Status');
+    Route::get('update/Status', 'ProfileController@updateStatusQuestion')->name('user.quiz.update.Status');
     Route::get('show/answers','ProfileController@ShowAnswers')->name('user.quiz.show.answers');
 
     Route::get('show/cv','ProfileController@ShowCV')->name('user.quiz.show.cv');
 
     Route::group(['prefix'=>'quiz'],function (){
         Route::get('/', 'ProfileController@indexQuiz')->name('user.quiz');
+        Route::get('/edit/quiz', 'ProfileController@EditAnswerQuestion')->name('user.quiz.edit');
+        Route::put('/update/quiz/{id}', 'ProfileController@updateAnswerQuestion')->name('user.quiz.update');
         Route::post('store', 'ProfileController@AnswerStore')->name('user.quiz.store');
     });
 });
-
-
-
-
 
 
 

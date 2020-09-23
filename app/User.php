@@ -38,4 +38,9 @@ class User extends Authenticatable
             return  'Accepted';
         }
     }
+
+    public function defaultProfilePhotoUrl()
+    {
+        return 'https://ui-avatars.com/api/?size=250&name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
+    }
 }

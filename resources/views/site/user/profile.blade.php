@@ -297,7 +297,7 @@
                 <h1 class="card-title card-header">{{ __('Profile') }}</h1>
                 <div class="card card-body">
                     @if(!Auth::user()->avatar)
-                        <img class="profileAvatar" src="{{asset('image/user/avatar/avatar.png')}}" alt="avatar">
+                        <img class="profileAvatar" style="border: 2px solid black; border-radius: 100%" src="{{Auth::user()->defaultProfilePhotoUrl()}}" alt="avatar">
                     @else
                         <img class="profileAvatar" src="{{asset(Auth::user()->avatar)}}" alt="{{asset(Auth::user()->avatar)}}">
                     @endif

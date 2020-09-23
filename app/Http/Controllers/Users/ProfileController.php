@@ -144,8 +144,9 @@ class ProfileController extends Controller
          }else{
              $userAnswers = 0;
          }
+         $user = User::find(Auth::id());
 
-        return view('site.user.quiz.index',compact('questions','userAnswers','question_arr','userAnswers_Q'));
+        return view('site.user.quiz.index',compact('user','questions','userAnswers','question_arr','userAnswers_Q','questions_count'));
     }
 
     public function AnswerStore(Request $request){
@@ -177,16 +178,39 @@ class ProfileController extends Controller
     }
 
 
-//    public function EditAnswerQuestion(){
-//        $user = User::find(Auth::id());
-//        $answer_user = $user->answerQuizUser;
-//        $questions = Quiz::paginate(1);
-//        if (!$user){
-//            return redirect()->route('user.profile')->with('error','user not found');
-//        }
-//        return view('site.user.quiz.edit',compact('answer_user','questions'));
-//    }
+    public function EditAnswerQuestion(){
+        $questions_count = Quiz::all();
+        $questions = Quiz::select('id','questionTitle' ,
+            'slug', 'questionDescription',
+            'requiredExpertise', 'type_question')->get();
+        foreach ($questions as $index=>$question){
+            $question_arr[$index]=$question->id;
+        }
 
+        $userAnswers_Q = UserAnswer::where('user_id',Auth::id())->get();
+
+
+        $countQ = $questions_count->count();
+        $countA = $userAnswers_Q->count();
+        if ($countA == $countQ){
+            $userAnswers = 1;
+        }else{
+            $userAnswers = 0;
+        }
+        $user = User::find(Auth::id());
+
+        return view('site.user.quiz.edit',compact('user','questions','userAnswers','question_arr','userAnswers_Q','questions_count'));
+    }
+
+    public function updateAnswerQuestion(Request $request , $id){
+//        return $request;
+        $userAnswer = UserAnswer::find($id);
+        if(!$userAnswer){
+            return redirect()->back()->with('error','Update Failed');
+        }
+        $userAnswer->update($request->only('answer'));
+        return redirect()->back()->with('success','Update Successfully');
+    }
     public function ShowCV(){
         $user = User::find(Auth::id());
         $answer_user = $user->answerQuizUser;

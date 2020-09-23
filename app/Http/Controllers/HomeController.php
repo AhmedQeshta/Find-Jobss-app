@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -33,8 +35,8 @@ class HomeController extends Controller
 //            $experience = $job->experience;
 //            $job_experience = explode(',', $experience);
 //        }
-
-        return view('home',compact('jobs'));
+        $user = User::find(Auth::id());
+        return view('home',compact('jobs','user'));
     }
     public function HomePage()
     {

@@ -124,12 +124,25 @@
                                                                 @endif
                                                             </div>
                                                             @if(!($answer_user_row->percentage>0 && $answer_user_row->percentage<=100))
+                                                                <div class="form-group col-md-12 ">
                                                                     <form action="{{route('admin.quiz.updatePercentage',$answer_user_row->id)}}" method="post">
                                                                         @csrf
                                                                         @method('PUT')
-                                                                        <input  type="text" class="form-control mx-auto" name="percentage" value="{{ old('percentage')  }}"  placeholder="Enter percentage : 50 to 100">
-                                                                        <button type="submit">Save</button>
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <i class="fa fa-dollar"></i>
+                                                                            </span>
+                                                                            <input style="position: relative"  type="text" class="form-control mx-auto" name="percentage" value="{{ old('percentage')  }}"  placeholder="Enter percentage : 50 to 100">
+                                                                            <button style="position:absolute;top:0px;right:0px;z-index:999" class="btn btn-dark " type="submit">Save</button>
+
+                                                                        </div>
+                                                                            @error('price')
+                                                                                <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </span>
+                                                                            @enderror
                                                                     </form>
+                                                                </div>
                                                             @endif
 
                                                         </div>
