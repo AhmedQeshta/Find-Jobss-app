@@ -107,24 +107,7 @@
         @endif
     </script>
 
-    <script>
-        $(document).on("click", "#delete_account", function(e){
-            e.preventDefault();
-            var link = $(this).attr("href");
-            swal({
-                title: "Are you Want to delete?",
-                text: "Once Delete, This will be Permanently Delete!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        window.location.href = link;
-                    }
-                });
-        });
-    </script>
+
     <script>
         $(document).on("click", "#Save_change", function(e){
             e.preventDefault();
@@ -144,7 +127,7 @@
         });
     </script>
 
-
+    @yield('script')
 
 
 </body>

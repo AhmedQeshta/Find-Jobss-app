@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Users','prefix'=>'user'],function (){
     Route::get('profile', 'ProfileController@index')->name('user.profile');
     Route::post('password/update', 'ProfileController@updatePassword')->name('user.password.update');//if have old password
     Route::post('profile/update', 'ProfileController@updateProfile')->name('user.profile.update');//if have not old password
+    Route::delete('delete/account/user/{id}', 'ProfileController@DeleteAccountUser')->name('delete.account.user');//if have not old password
 
     Route::get('update/Status', 'ProfileController@updateStatusQuestion')->name('user.quiz.update.Status');
     Route::get('show/answers','ProfileController@ShowAnswers')->name('user.quiz.show.answers');

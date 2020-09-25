@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Job;
 use App\Models\Quiz;
 use App\Models\UserAnswer;
+use App\Notifications\CreatedCVNotification;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use mysql_xdevapi\Exception;
 
 class QuizController extends Controller
@@ -141,6 +143,7 @@ class QuizController extends Controller
     public function destroy($id)
     {
         $Quiz = Quiz::find($id);
+        $answerQuestionForUsers = $Quiz->answerQuizForUser;
         if (!$Quiz){
             $notification=array(
                 'message'=>'Question not Found',
@@ -149,6 +152,10 @@ class QuizController extends Controller
             return redirect()->route('admin.quiz')->with($notification);
         }
         $Quiz->delete();
+        foreach ($answerQuestionForUsers as $answerQuestionForUser){
+            $answerQuestionForUser->delete();//delete answer this question
+        }
+
         $notification=array(
             'message'=>'Question deleted successfully',
             'alert-type'=>'success'
@@ -188,6 +195,7 @@ class QuizController extends Controller
         return redirect()->route('admin.quiz.showAnswerUser',$answerUser->user_id)->with($notification);
     }
     public function updateStatusUser($id){
+
          $user = User::find($id);
         if (!$user){
             return redirect()->route('admin.quiz.users.answers')->with('error','user not found');
@@ -197,6 +205,9 @@ class QuizController extends Controller
                 'message'=>'Add successfully',
                 'alert-type'=>'success'
             );
+//          add notification mail
+        Notification::send($user, new CreatedCVNotification($user));
+
         return redirect()->route('admin.quiz.users.answers')->with($notification);
     }
 

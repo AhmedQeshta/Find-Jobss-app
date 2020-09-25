@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\UserAnswer;
 
 class Quiz extends Model
 {
@@ -17,5 +18,7 @@ class Quiz extends Model
         $this->attributes['slug'] = Str::slug($this->attributes['questionTitle']);
     }
 
-
+    public function answerQuizForUser(){
+        return  $this->hasMany(UserAnswer::class ,'quiz_id','id');
+    }
 }

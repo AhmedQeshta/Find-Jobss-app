@@ -309,7 +309,13 @@
                         <h4>{{Auth::user()->job}}</h4>
                         <h6><a class="btn badge-dark" href="{{route('user.quiz.show.cv')}}">My CV</a></h6>
                         <hr>
-                        <h6><a id="delete_account" class="btn badge-danger" href="">Delete Account</a></h6>
+                        @if(Auth::user()->password)
+                            <h6><button  class="btn badge-danger" href="" data-toggle="modal" data-target="#Delete_account_Modal">Delete Account</button></h6>
+                        @else
+                            <div class="alert alert-info">
+                                <p>if you need delete Account,Add Password</p>
+                            </div>
+                        @endif
                     @elseif(Auth::user()->status_question == 1)
                         <div class="alert alert-warning">
                             <p>Questions are under review. <br> <strong><a href="{{route('user.quiz.show.answers')}}"> Show Your Answer!</a></strong> </p>
@@ -324,4 +330,66 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="Delete_account_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Account</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('delete.account.user',Auth::id())}}" method="post">
+                        @csrf
+                        @method('DELETE')
+                        <div class="form-group">
+                            <label for="password">Please Enter Your Password</label>
+                            <input type="password" class="form-control @error('old_password') is-invalid @enderror" name="old_password" required autofocus autocomplete="old_password">
+                             @error('old_password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Delete Account</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        // $('#myModal').on('shown.bs.modal', function () {
+        //     e.preventDefault();
+        //     $('#delete_account').trigger('focus')
+        // })
+
+
+
+        // $(document).on("click", "#delete_account", function(e){
+        //     e.preventDefault();
+
+            // var link = $(this).attr("href");
+            // swal({
+            //     title: "Are you Want to delete?",
+            //     text: "Once Delete, This will be Permanently Delete!",
+            //     icon: "warning",
+            //     buttons: true,
+            //     dangerMode: true,
+            // })
+            //     .then((willDelete) => {
+            //         if (willDelete) {
+            //             window.location.href = link;
+            //         }
+            //     });
+        // });
+    </script>
 @endsection

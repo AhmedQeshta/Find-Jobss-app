@@ -211,6 +211,7 @@ class ProfileController extends Controller
         $userAnswer->update($request->only('answer'));
         return redirect()->back()->with('success','Update Successfully');
     }
+
     public function ShowCV(){
         $user = User::find(Auth::id());
         $answer_user = $user->answerQuizUser;
@@ -220,6 +221,20 @@ class ProfileController extends Controller
             return redirect()->route('user.profile')->with('error','user not found');
         }
         return view('site.user.cv.showCV',compact('user','answer_user','questions'));
+    }
+
+    public function DeleteAccountUser(Request $request){
+        $password = Auth::user()->password;
+        $user=User::find(Auth::id());
+        $oldPassword=$request->old_password;
+
+        if (Hash::check($oldPassword,$password)) {
+            $user->delete();
+            Auth::logout();
+            return Redirect()->route('login')->with('success','delete Account Successfully');
+        }else{
+            return Redirect()->route('user.profile')->with('error','Current Password not true');
+        }
     }
 
 
